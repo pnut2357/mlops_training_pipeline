@@ -10,7 +10,7 @@ envs:
     FEATURE_METADATA: {
       training_table_name: "crafty-student-446923-n5.stock.raw_nse_tataglobal",
       time_col: "Date",
-      is_log: True,
+      is_log: False,
     }
     MODEL_REGISTRY_METADATA: {
       "model_registry_table_name": "crafty-student-446923-n5.model_registry.model_metrics",

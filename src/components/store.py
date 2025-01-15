@@ -1,10 +1,3 @@
-# # Filter out NaN values
-# valid_metrics = {key: value for key, value in metrics.items() if not (isinstance(value, float) and np.isnan(value))}
-#
-# # Find the model with the lowest RMS
-# best_model = min(valid_metrics, key=valid_metrics.get)
-# best_rms = valid_metrics[best_model]
-
 from typing import NamedTuple, Dict
 from kfp import dsl
 
@@ -94,7 +87,6 @@ def store_pred(
     ma_valid_pred_open = pd.read_parquet(gcs_ma_valid_pred_open.path + ".gzip")
     arima_valid_pred_open = pd.read_parquet(gcs_arima_valid_pred_open.path + ".gzip")
     lstm_valid_pred_open = pd.read_parquet(gcs_lstm_valid_pred_open.path + ".gzip")
-    ##
     pred_data = pd.concat([x_valid, valid_set, ma_valid_pred_open, arima_valid_pred_open, lstm_valid_pred_open], axis=1)
     print(pred_data.head(4))
     bq_schema = [
@@ -113,34 +105,6 @@ def store_pred(
         schema=bq_schema,
         time_partition_col=time_col,
     )
-    # try:
-    #     pred_data = pd.concat([entire_data, ma_valid_pred_open, arima_valid_pred_open, lstm_valid_pred_open], axis=1)
-    #     print(pred_data.head(4))
-    #     bq_schema = [
-    #         bigquery.SchemaField("Date", "DATE", mode="REQUIRED"),
-    #         bigquery.SchemaField("Open", "FLOAT64", mode="NULLABLE"),
-    #         bigquery.SchemaField("High", "FLOAT64", mode="NULLABLE"),
-    #         bigquery.SchemaField("Low", "FLOAT64", mode="NULLABLE"),
-    #         bigquery.SchemaField("Last", "FLOAT64", mode="NULLABLE"),
-    #         bigquery.SchemaField("Close", "FLOAT64", mode="NULLABLE"),
-    #         bigquery.SchemaField("TotalTradeQuantity", "INTEGER", mode="NULLABLE"),
-    #         bigquery.SchemaField("TurnoverLacs", "FLOAT64", mode="NULLABLE"),
-    #         bigquery.SchemaField("MA_Prediction", "FLOAT64", mode="NULLABLE"),
-    #         bigquery.SchemaField("ARIMA_Prediction", "FLOAT64", mode="NULLABLE"),
-    #         bigquery.SchemaField("LSTM_Prediction", "FLOAT64", mode="NULLABLE"),
-    #     ]
-    #     bq_client = bigquery.Client(project=project_id)
-    #     save_pandas2bigquery(
-    #         bq_client=bq_client,
-    #         pdf=pred_data,
-    #         dataset_id=dataset_id,
-    #         table_id=table_id,
-    #         schema=bq_schema,
-    #         time_partition_col=time_col,
-    #     )
-    # except:
-    #     print("Failed to load data into BigQuery")
-    # Return outputs
     gcs_pred_data = dsl.Dataset(uri=dsl.get_uri(suffix="gcs_pred_data.parquet"))
     pred_data.to_parquet(gcs_pred_data.path + ".gzip", index=False, compression="gzip")
     return gcs_pred_data

@@ -1,7 +1,7 @@
 from typing import Dict, NamedTuple
 import kfp
 from src.components import features, training, comparison, model_registraion, store
-from utils.get_config import load_config
+from src.utils.get_config import load_config
 from google.cloud import aiplatform
 import datetime
 from google.oauth2 import service_account

@@ -20,14 +20,15 @@ pylint = "*"
 pmdarima = "*"
 statsmodels = ">=0.14.3"
 scikit-learn = "*"
-tensorflow = ">=2.15.0"
-numpy = ">=1.26.4"
+tensorflow = "==2.17.0"
+numpy = "==1.26.4"
 pandas = ">=1.4.3"
 plotly = "*"
 PyYAML = "*"
 matplotlib = ">=3.6.0"
 google-cloud-bigquery = ">=3.10.0"
 google-cloud-aiplatform = "^1.59.0"
+pyarrow = "*"
 
 [tool.pytest.ini_options]
 markers = [ "mlops_training_pipeline: Mark tests as pipelines tests"]

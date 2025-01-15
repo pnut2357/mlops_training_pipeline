@@ -121,9 +121,9 @@ def fetch_dataset(
         """
         shape = data.shape[0]
         x_df_new = data[["Date"]].copy()
-        df_new = data[["Open"]].copy()  # Create a copy to avoid modifying the original
+        df_new = data[["Open"]].copy() # Create a copy to avoid modifying the original
         if is_log:
-            df_new = np.log(df_new["Open"]).copy()
+            df_new = np.log(df_new["Open"]).copy().to_frame(name="Open")
         train_set = df_new.iloc[:math.ceil(shape * 0.9)]
         valid_set = df_new.iloc[math.ceil(shape * 0.9):]
         x_train = x_df_new.iloc[:math.ceil(shape * 0.9)]
@@ -144,6 +144,7 @@ def fetch_dataset(
         ORDER BY {time_col} ASC
     """
     data: pd.DataFrame = bq_client.query(query).to_dataframe()
+    data = data.fillna(method="ffill").fillna(method="bfill")
     if is_log:
         temp_data = data["Open"].copy()
         data["Open"] = np.log(temp_data)
@@ -170,7 +171,7 @@ def fetch_dataset(
     gcs_seasonal = dsl.Artifact(uri=dsl.get_uri(suffix="gcs_seasonal.png"))
     seasonal_fig.savefig(gcs_seasonal.path)
     data = data.dropna()
-    x_train, x_valid, train_set, valid_set = train_val_split(data, is_log=True)
+    x_train, x_valid, train_set, valid_set = train_val_split(data, is_log=is_log)
     gcs_x_train = dsl.Dataset(uri=dsl.get_uri(suffix="x_train.parquet"))
     gcs_x_valid = dsl.Dataset(uri=dsl.get_uri(suffix="x_valid.parquet"))
     gcs_train_set = dsl.Dataset(uri=dsl.get_uri(suffix="train_set.parquet"))
