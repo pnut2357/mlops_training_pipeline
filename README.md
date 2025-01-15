@@ -43,7 +43,7 @@ The demo training pipeline for Stock Prediction.
 <br>
 
 ##### Pipeline Training DAG Design 
-<img src="./figures/vertex_stock_pred_training_pipeline.png" width="600"> <br>
+<img src="./figures/vertex_stock_pred_training_pipeline.png" width="800"> <br>
 <br>
 
 #### Metadata Storage
