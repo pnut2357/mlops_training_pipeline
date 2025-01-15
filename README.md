@@ -46,6 +46,19 @@ The demo training pipeline for Stock Prediction.
 <img src="./figures/vertex_stock_pred_training_pipeline.png" width="800"> <br>
 <br>
 
+#### Pipeline Inputs/Outputs
+##### Input BQ Table from Feature Pipeline
+<img src="./figures/stock_input_table.png" width="800"> <br>
+<br>
+
+##### Prediction BQ Table
+<img src="./figures/stock_pred_table.png" width="800"> <br>
+<br>
+
+##### Model Registry Record Table
+<img src="./figures/stock_model_registry_record_table.png" width="800"> <br>
+<br>
+
 #### Metadata Storage
 
 The metadata of pipeline jobs will be stored in GCS buckets. 
