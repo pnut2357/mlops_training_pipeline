@@ -100,7 +100,6 @@ src/test_config.py                        4      0   100%
 TOTAL                                   422     59    86%
 ```
 
-
 ## Machine Learning Model Categorization
 The most common machine learning problems can be broken down into the following high-level categories:
 
